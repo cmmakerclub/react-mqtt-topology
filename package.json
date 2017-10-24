@@ -1,0 +1,27 @@
+{
+  "name": "react-mqtt-topology",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app/src/index.js",
+  "scripts": {
+    "start": "watchify app/src/Main.jsx -v -t [ babelify --presets [ es2015 react] ] -o app/scripts/app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/compilerexe/react-mqtt-topology.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/compilerexe/react-mqtt-topology/issues"
+  },
+  "homepage": "https://github.com/compilerexe/react-mqtt-topology#readme",
+  "devDependencies": {
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-react": "^6.24.1",
+    "babelify": "^7.3.0",
+    "react": "^16.0.0",
+    "react-dom": "^16.0.0",
+    "watchify": "^3.9.0"
+  }
+}

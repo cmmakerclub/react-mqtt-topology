@@ -10,8 +10,7 @@ mqtt.publish = function (topic, payload, opts) {
 }
 
 const onConnected = function () {
-  mqtt.subscribe('MARU/YOUR-NAME-001/status', {qos: 0})
-  mqtt.subscribe('MARU/YOUR-NAME-001/$/#', {qos: 0})
+  mqtt.subscribe('NAT/+/now/#', {qos: 0})
 
   hideConnectingIcon()
 
@@ -19,6 +18,7 @@ const onConnected = function () {
   $('#incoming-messages').html('connected')
 }
 
+let objMaster = {}
 const onMessage = function (message) {
   const topic = message.destinationName
   const qos = message.qos
@@ -35,7 +35,19 @@ const onMessage = function (message) {
   const $p = $('<p class="title">' + payloadString + '</p>')
   var dateString = moment().format('h:mm:ss a')
   $('#incoming-messages').html($p)
-  $('.message-header-text').text('[' + dateString + '] Message: ' + topic + (retained ? ' (retained)' : ''))
+
+  //$('.message-header-text').text('[' + dateString + '] Message: ' + topic + (retained ? ' (retained)' : ''))
+
+  var obj = JSON.parse(payloadString)
+
+  let master = obj.info.to
+  if (objMaster[master] === undefined) {
+    objMaster[master] = {children: {}}
+  }
+
+  objMaster[master].children[obj.info.from] = obj
+  objMaster[master].children_array = _.values(objMaster[master].children)
+
 }
 
 // called when the client loses its connection
