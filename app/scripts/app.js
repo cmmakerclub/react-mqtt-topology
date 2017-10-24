@@ -15,13 +15,13 @@ var _Info = require('./components/Info.jsx');
 
 var _Info2 = _interopRequireDefault(_Info);
 
-var _Master = require('./components/Master.jsx');
-
-var _Master2 = _interopRequireDefault(_Master);
-
 var _Title = require('./components/Title.jsx');
 
 var _Title2 = _interopRequireDefault(_Title);
+
+var _List = require('./components/List.jsx');
+
+var _List2 = _interopRequireDefault(_List);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -31,26 +31,75 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+var nodesId = {};
+var edgesId = {};
+
 var Container = function (_React$Component) {
   _inherits(Container, _React$Component);
 
   function Container(props) {
     _classCallCheck(this, Container);
 
-    return _possibleConstructorReturn(this, (Container.__proto__ || Object.getPrototypeOf(Container)).call(this, props));
+    var _this = _possibleConstructorReturn(this, (Container.__proto__ || Object.getPrototypeOf(Container)).call(this, props));
+
+    _this.state = { objLists: [] };
+    return _this;
   }
 
   _createClass(Container, [{
     key: 'componentDidMount',
     value: function componentDidMount() {
-      setInterval(function () {
+      var _this2 = this;
+
+      // create an array with nodes
+      window.nodes = new vis.DataSet([]);
+      // create an array with edges
+      window.edges = new vis.DataSet([]);
+
+      window.fn = function () {
+        var nodes_array = [];
+        var edges_array = [];
         Object.keys(objMaster).forEach(function (key, idx) {
           console.log('' + key);
+          console.log('debug : ' + _this2.state.objLists);
+          if (nodesId[key] === undefined) {
+            nodes.add({
+              id: key, label: key
+            });
+            nodesId[key] = 1;
+          }
           objMaster[key].children_array.forEach(function (v, idx) {
-            console.log('--- ' + v.info.from);
+            if (nodesId[v.info.from] === undefined) {
+              nodes.add({
+                id: v.info.from, label: '--' + v.info.from
+              });
+              nodesId[v.info.from] = 1;
+            }
+            if (!edgesId[v.info.from + '-' + v.info.to]) {
+              edges.add({
+                from: v.info.from, to: v.info.to, arrows: 'to', dashes: false
+              });
+              edgesId[v.info.from + '-' + v.info.to] = 1;
+            }
           });
+          // window.network.stabilize()
         });
-      }, 500);
+      };
+
+      // create a network
+      var container = document.getElementById('mynetwork');
+      var data = {
+        nodes: nodes,
+        edges: edges
+      };
+      var options = {};
+      window.network = new vis.Network(container, data, options);
+
+      // setTimeout(fn, 5000)
+      setInterval(function () {
+        fn();
+        // network.stabilize()
+      }, 1000);
     }
   }, {
     key: 'render',
@@ -58,7 +107,25 @@ var Container = function (_React$Component) {
       return _react2.default.createElement(
         'div',
         { className: 'container' },
-        _react2.default.createElement(_Info2.default, null)
+        _react2.default.createElement(_Info2.default, null),
+        _react2.default.createElement(
+          'section',
+          { className: 'section' },
+          _react2.default.createElement(
+            'div',
+            { className: 'container' },
+            _react2.default.createElement(
+              'article',
+              { className: 'message' },
+              _react2.default.createElement(
+                'div',
+                { className: 'message-header' },
+                _react2.default.createElement(_Title2.default, { title: 'This is title' })
+              ),
+              _react2.default.createElement('div', { className: 'message-body' })
+            )
+          )
+        )
       );
     }
   }]);
@@ -68,7 +135,7 @@ var Container = function (_React$Component) {
 
 _reactDom2.default.render(_react2.default.createElement(Container, null), document.getElementById('app'));
 
-},{"./components/Info.jsx":2,"./components/Master.jsx":3,"./components/Title.jsx":4,"react":35,"react-dom":32}],2:[function(require,module,exports){
+},{"./components/Info.jsx":2,"./components/List.jsx":3,"./components/Title.jsx":4,"react":35,"react-dom":32}],2:[function(require,module,exports){
 'use strict';
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -115,45 +182,6 @@ var Info = function (_React$Component) {
               'h2',
               { className: 'subtitle' },
               'React Template'
-            ),
-            _react2.default.createElement(
-              'div',
-              { className: 'notification' },
-              _react2.default.createElement(
-                'p',
-                null,
-                'appName: appname'
-              ),
-              _react2.default.createElement(
-                'p',
-                null,
-                'mqttHostName: beta.cmmc.io'
-              ),
-              _react2.default.createElement(
-                'p',
-                null,
-                'mqttPort: 59001'
-              ),
-              _react2.default.createElement(
-                'p',
-                null,
-                'mqttClientId: cmmc-ws-2947.9026'
-              ),
-              _react2.default.createElement(
-                'p',
-                null,
-                'mqttPrefix: MARU/'
-              ),
-              _react2.default.createElement(
-                'p',
-                null,
-                'mqttPubTopic: MARU/YOUR-NAME-001/$/command'
-              ),
-              _react2.default.createElement(
-                'p',
-                null,
-                'mqttSubTopic: MARU/YOUR-NAME-001/status'
-              )
             )
           )
         )
@@ -167,11 +195,11 @@ var Info = function (_React$Component) {
 module.exports = Info;
 
 },{"react":35}],3:[function(require,module,exports){
-"use strict";
+'use strict';
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _react = require("react");
+var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
@@ -183,59 +211,38 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var Master = function (_React$Component) {
-  _inherits(Master, _React$Component);
+var List = function (_React$Component) {
+  _inherits(List, _React$Component);
 
-  function Master() {
-    _classCallCheck(this, Master);
+  function List() {
+    _classCallCheck(this, List);
 
-    return _possibleConstructorReturn(this, (Master.__proto__ || Object.getPrototypeOf(Master)).apply(this, arguments));
+    return _possibleConstructorReturn(this, (List.__proto__ || Object.getPrototypeOf(List)).apply(this, arguments));
   }
 
-  _createClass(Master, [{
-    key: "render",
+  _createClass(List, [{
+    key: 'render',
     value: function render() {
 
       return _react2.default.createElement(
-        "div",
+        'div',
         null,
-        _react2.default.createElement(
-          "section",
-          { className: "section" },
-          _react2.default.createElement(
-            "div",
-            { className: "container" },
-            _react2.default.createElement(
-              "article",
-              { className: "message" },
-              _react2.default.createElement(
-                "div",
-                { className: "message-header" },
-                _react2.default.createElement(
-                  "p",
-                  { className: "message-header-text" },
-                  "Master"
-                )
-              ),
-              _react2.default.createElement("div", { className: "message-body" })
-            )
-          )
-        )
+        'this is list'
       );
     }
   }]);
 
-  return Master;
+  return List;
 }(_react2.default.Component);
 
-module.exports = Master;
+module.exports = List;
 
 },{"react":35}],4:[function(require,module,exports){
-'use strict';
+"use strict";
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _react = require('react');
+var _react = require("react");
 
 var _react2 = _interopRequireDefault(_react);
 
@@ -257,17 +264,13 @@ var Title = function (_React$Component) {
   }
 
   _createClass(Title, [{
-    key: 'render',
+    key: "render",
     value: function render() {
 
       return _react2.default.createElement(
-        'div',
-        null,
-        _react2.default.createElement(
-          'h3',
-          null,
-          this.props.title
-        )
+        "p",
+        { className: "message-header-text" },
+        this.props.title
       );
     }
   }]);

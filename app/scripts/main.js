@@ -25,6 +25,7 @@ const onMessage = function (message) {
   const retained = message.retained
   const payloadString = message.payloadString
 
+
   /*
   console.log('Topic:     ' + topic)
   console.log('QoS:       ' + qos)
@@ -47,6 +48,8 @@ const onMessage = function (message) {
 
   objMaster[master].children[obj.info.from] = obj
   objMaster[master].children_array = _.values(objMaster[master].children)
+
+  // console.log(objMaster);
 
 }
 
@@ -71,3 +74,6 @@ function connectServer () {
   mqtt.onMessageArrived = onMessage
   mqtt.onConnectionLost = onConnectionLost
 }
+
+
+connectServer()

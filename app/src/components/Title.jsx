@@ -2,17 +2,9 @@ import React from 'react'
 
 class Title extends React.Component {
 
-  render() {
+  render () {
 
-    return (
-
-      <div>
-
-        <h3>{this.props.title}</h3>
-
-      </div>
-
-    )
+    return <p className="message-header-text">{this.props.title}</p>
 
   }
 
