@@ -2,13 +2,33 @@ import React from 'react'
 
 class List extends React.Component {
 
-  render() {
+  render () {
 
     return (
 
-      <div>
+      <div className='col-12' style={{ marginTop: '20px' }}>
 
-      this is list
+        <div className="card">
+
+          <div className="card-header">
+
+            <b>Master Address : {this.props.header}</b>
+
+          </div>
+
+          <div className="card-body">
+
+            <p>Child Address</p>
+
+            <ul id='list-child'>
+
+              {this.props.child}
+
+            </ul>
+
+          </div>
+
+        </div>
 
       </div>
 

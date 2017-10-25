@@ -2,11 +2,13 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 
 import Info from './components/Info.jsx'
-import Title from './components/Title.jsx'
 import List from './components/List.jsx'
+import Child from './components/Child.jsx'
+import Topology from './components/Topology.jsx'
 
 const nodesId = {}
 const edgesId = {}
+const multipleMaster = {};
 
 class Container extends React.Component {
 
@@ -22,15 +24,16 @@ class Container extends React.Component {
     window.edges = new vis.DataSet([])
 
     window.fn = () => {
-      let nodes_array = []
-      let edges_array = []
+
       Object.keys(objMaster).forEach((key, idx) => {
-        console.log(`${key}`)
-        console.log(`debug : ${this.state.objLists}`)
+        // console.log(`${key}`)
+        // console.log(`debug : ${this.state.objLists}`)
+
         if (nodesId[key] === undefined) {
           nodes.add({
             id: key, label: key
           })
+          multipleMaster[key] = (<List header={key}/>) // create master
           nodesId[key] = 1
         }
         objMaster[key].children_array.forEach((v, idx) => {
@@ -38,6 +41,9 @@ class Container extends React.Component {
               nodes.add({
                 id: v.info.from, label: `--${v.info.from}`
               })
+
+              //multipleMaster[key].child[key] = (<Child name={`${v.info.from}`}/>) // create child
+
               nodesId[v.info.from] = 1
             }
             if (!edgesId[`${v.info.from}-${v.info.to}`]) {
@@ -49,6 +55,16 @@ class Container extends React.Component {
           }
         )
         // window.network.stabilize()
+
+        _.forOwn(multipleMaster, (value, key) => {
+
+          console.log(key);
+
+        })
+
+        ReactDOM.render(multipleMaster, document.getElementById('list-master'))
+        ReactDOM.render(multipleChild, document.getElementById('list-child'))
+
       })
 
     }
@@ -74,22 +90,22 @@ class Container extends React.Component {
     return (
       <div className='container'>
 
-        <Info/>
+        <div className="row" style={{marginTop: '20px'}}>
 
-        <section className='section'>
-          <div className="container">
+          <Info/>
 
-            <article className="message">
-              <div className="message-header">
-                <Title title={'This is title'}/>
-              </div>
-              <div className="message-body">
-                {}
-              </div>
-            </article>
-
+          <div className='col-7'>
+            <div id='list-master'/>
           </div>
-        </section>
+
+        </div>
+
+        <div className="row" style={{marginTop: '20px'}}>
+
+          <Topology height={'400px'}/>
+
+        </div>
+
 
       </div>
     )
