@@ -7,10 +7,11 @@
   <title>React Topology</title>
 
   <!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.0/css/bulma.min.css">-->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-beta/css/bootstrap.min.css">
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-beta/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <!--<link rel="stylesheet" href="styles/main.css">-->
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.21.0/vis-network.min.css" rel="stylesheet" type="text/css" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.21.0/vis-network.min.css" rel="stylesheet" type="text/css"/>
 
 </head>
 <body>
@@ -20,16 +21,25 @@
   your browser</a> to improve your experience.</p>
 <![endif]-->
 
-<div id="app"></div>
+<div id="app"/>
+
+<link rel="stylesheet" href="../bower_components/bulma/css/bulma.css">
+<link rel="stylesheet" href="../bower_components/components-font-awesome/css/font-awesome.css">
+<link rel="stylesheet" href="styles/main.css">
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.4/lodash.min.js"></script>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.19.1/moment.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.13/moment-timezone.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.2/mqttws31.min.js"></script>
-
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.21.0/vis-network.min.js"></script>
+
+<!-- build:js scripts/vendor.js -->
+<script src="../bower_components/jquery/dist/jquery.min.js"></script>
+<script src="../bower_components/moment/moment.js"></script>
+<script src="../bower_components/moment-timezone/moment-timezone.js"></script>
+<script src="../bower_components/paho-mqtt/src/mqttws31.js"></script>
+<!-- bower:js -->
+<!-- endbower -->
+<!-- endbuild -->
+
 
 <script src="scripts/config.js"></script>
 <script src="scripts/main.js"></script>
