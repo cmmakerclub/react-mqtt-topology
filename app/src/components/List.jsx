@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 
 class List extends React.Component {
 
@@ -6,7 +6,7 @@ class List extends React.Component {
 
     return (
 
-      <div className='col-12' style={{ marginTop: '20px' }}>
+      <div className='col-12' style={{marginTop: '20px'}}>
 
         <div className="card">
 
@@ -32,10 +32,10 @@ class List extends React.Component {
 
       </div>
 
-    )
+    );
 
   }
 
 }
 
-module.exports = List
+module.exports = List;

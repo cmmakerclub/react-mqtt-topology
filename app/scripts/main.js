@@ -1,30 +1,29 @@
 const Global = {
   mqtt: new Paho.MQTT.Client(Config.hostname, Number(Config.port), Config.clientId)
-}
+};
 
-const mqtt = Global.mqtt
+const mqtt = Global.mqtt;
 
 mqtt.publish = function (topic, payload, opts) {
-  opts = opts || {}
-  mqtt.send(topic, payload, opts.qos || 0, opts.retain || false)
-}
+  opts = opts || {};
+  mqtt.send(topic, payload, opts.qos || 0, opts.retain || false);
+};
 
 const onConnected = function () {
-  mqtt.subscribe('NAT/+/now/#', {qos: 0})
+  mqtt.subscribe('NAT/espnow/#', {qos: 0});
 
-  hideConnectingIcon()
+  hideConnectingIcon();
 
-  $('.publish-wrapper').removeClass('is-hidden')
-  $('#incoming-messages').html('connected')
-}
+  $('.publish-wrapper').removeClass('is-hidden');
+  $('#incoming-messages').html('connected');
+};
 
-let objMaster = {}
+let objMaster = {};
 const onMessage = function (message) {
-  const topic = message.destinationName
-  const qos = message.qos
-  const retained = message.retained
-  const payloadString = message.payloadString
-
+  const topic = message.destinationName;
+  const qos = message.qos;
+  const retained = message.retained;
+  const payloadString = message.payloadString;
 
   /*
   console.log('Topic:     ' + topic)
@@ -33,47 +32,46 @@ const onMessage = function (message) {
   console.log('Message Arrived: ' + payloadString)
   */
 
-  const $p = $('<p class="title">' + payloadString + '</p>')
-  var dateString = moment().format('h:mm:ss a')
-  $('#incoming-messages').html($p)
+  const $p = $('<p class="title">' + payloadString + '</p>');
+  var dateString = moment().format('h:mm:ss a');
+  $('#incoming-messages').html($p);
 
   //$('.message-header-text').text('[' + dateString + '] Message: ' + topic + (retained ? ' (retained)' : ''))
 
-  var obj = JSON.parse(payloadString)
+  var obj = JSON.parse(payloadString);
 
-  let master = obj.info.to
+  let master = obj.info.to;
   if (objMaster[master] === undefined) {
-    objMaster[master] = {children: {}}
+    objMaster[master] = {children: {}};
   }
 
-  objMaster[master].children[obj.info.from] = obj
-  objMaster[master].children_array = _.values(objMaster[master].children)
+  objMaster[master].children[obj.info.from] = obj;
+  objMaster[master].children_array = _.values(objMaster[master].children);
 
   // console.log(objMaster);
 
-}
+};
 
 // called when the client loses its connection
 const onConnectionLost = function (responseObject) {
   if (responseObject.errorCode !== 0) {
-    console.log('onConnectionLost:' + responseObject.errorMessage)
+    console.log('onConnectionLost:' + responseObject.errorMessage);
   }
-}
+};
 
 function hideConnectingIcon () {
-  $('.mqtt-connecting').hide()
+  $('.mqtt-connecting').hide();
 }
 
 const onConnectFailure = function () {
-  alert('mqtt connect failed')
-  hideConnectingIcon()
-}
+  alert('mqtt connect failed');
+  hideConnectingIcon();
+};
 
 function connectServer () {
-  mqtt.connect({timeout: 10, onSuccess: onConnected, onFailure: onConnectFailure})
-  mqtt.onMessageArrived = onMessage
-  mqtt.onConnectionLost = onConnectionLost
+  mqtt.connect({timeout: 10, onSuccess: onConnected, onFailure: onConnectFailure});
+  mqtt.onMessageArrived = onMessage;
+  mqtt.onConnectionLost = onConnectionLost;
 }
 
-
-connectServer()
+connectServer();

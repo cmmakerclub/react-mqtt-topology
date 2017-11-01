@@ -54,13 +54,10 @@ var Container = function (_React$Component) {
   _createClass(Container, [{
     key: 'componentDidMount',
     value: function componentDidMount() {
-      // create an array with nodes
       window.nodes = new vis.DataSet([]);
-      // create an array with edges
       window.edges = new vis.DataSet([]);
 
       window.fn = function () {
-
         Object.keys(objMaster).forEach(function (key, idx) {
           // console.log(`${key}`)
           // console.log(`debug : ${this.state.objLists}`)
@@ -92,7 +89,6 @@ var Container = function (_React$Component) {
           // window.network.stabilize()
 
           _.forOwn(multipleMaster, function (value, key) {
-
             console.log(key);
           });
 
@@ -231,45 +227,6 @@ var Info = function (_React$Component) {
               'b',
               null,
               'MQTT React Template'
-            )
-          ),
-          _react2.default.createElement(
-            'div',
-            { className: 'card-body' },
-            _react2.default.createElement(
-              'p',
-              null,
-              'appName: appname'
-            ),
-            _react2.default.createElement(
-              'p',
-              null,
-              'mqttHostName: beta.cmmc.io'
-            ),
-            _react2.default.createElement(
-              'p',
-              null,
-              'mqttPort: 59001'
-            ),
-            _react2.default.createElement(
-              'p',
-              null,
-              'mqttClientId: cmmc-ws-2947.9026'
-            ),
-            _react2.default.createElement(
-              'p',
-              null,
-              'mqttPrefix: MARU/'
-            ),
-            _react2.default.createElement(
-              'p',
-              null,
-              'mqttPubTopic: MARU/YOUR-NAME-001/$/command'
-            ),
-            _react2.default.createElement(
-              'p',
-              null,
-              'mqttSubTopic: MARU/YOUR-NAME-001/status'
             )
           )
         )

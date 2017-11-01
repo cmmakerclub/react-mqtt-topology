@@ -4,6 +4,7 @@
   "description": "",
   "main": "app/src/index.js",
   "scripts": {
+    "serve": "live-server .",
     "start": "watchify app/src/Main.jsx -v -t [ babelify --presets [ es2015 react] ] -o app/scripts/app.js"
   },
   "repository": {
