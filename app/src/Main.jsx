@@ -17,9 +17,11 @@ class Container extends React.Component {
     this.state = {objLists: []};
   }
 
+
   componentDidMount () {
     window.nodes = new vis.DataSet([]);
     window.edges = new vis.DataSet([]);
+   // 
 
     window.fn = () => {
       Object.keys(objMaster).forEach((key, idx) => {
